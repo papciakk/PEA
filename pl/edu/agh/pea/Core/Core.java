@@ -6,10 +6,9 @@ import pl.edu.agh.pea.Operators.Operators;
 import java.io.*;
 import java.util.*;
 
-////Core version 1.0
+////Core version 1.2
 
 public class Core {
-	private static List<String> configFile = new LinkedList<String>();
 	private static ProblemParameters problemParameters = new ProblemParameters();
 	
 	static List<Individual> population;
@@ -18,6 +17,7 @@ public class Core {
 	public static boolean readConfigFile(String fileName)
 	{
 		BufferedReader br = null;
+		List<String> configFile = new LinkedList<String>();
 		int configLineCounter = 1;
 		
 		try {
@@ -211,6 +211,11 @@ public class Core {
 		}
 		
 		ChartDrawer.drawPlot(generations, bestInGenerationArray);
+	}
+	
+	public static ProblemParameters getProblemParameters()
+	{
+		return problemParameters;
 	}
 	
 	public static void main(String[] args) {

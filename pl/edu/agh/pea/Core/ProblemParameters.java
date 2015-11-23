@@ -1,3 +1,5 @@
+package pl.edu.agh.pea.Core;
+
 //ProblemParameters version 1.0
 public class ProblemParameters {
 	public int dimensions = -1;

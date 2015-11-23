@@ -1,8 +1,12 @@
+package pl.edu.agh.pea.Core;
+
+import pl.edu.agh.pea.Individuals.Individual;
+import pl.edu.agh.pea.Operators.Operators;
+
 import java.io.*;
-import java.text.DecimalFormat;
 import java.util.*;
 
-//Core version 1.0
+////Core version 1.0
 
 public class Core {
 	private static List<String> configFile = new LinkedList<String>();
@@ -185,23 +189,24 @@ public class Core {
 	public static void solve()
 	{
 		population = new ArrayList<Individual>();
-		double bestInGeneration;
+		Individual bestInGeneration;
+		
 		double [] bestInGenerationArray = new double [problemParameters.generations];
 		int [] generations = new int [problemParameters.generations];
 		
-		for(int i = 0; i < problemParameters.population; i++) {
-			population.add(new Individual(problemParameters.dimensions, true));
-		}
+		for(int i = 0; i < problemParameters.population; i++) 
+			population.add(new Individual(problemParameters, true));
 
-		operators = new Operators(population,
-								  problemParameters.dimensions,
-								  problemParameters.population);
+		operators = new Operators(population, problemParameters);
 		
 		for(int i = 0; i < problemParameters.generations; i++)
 		{
 			bestInGeneration = operators.nextGeneration();
-			System.out.println(new DecimalFormat("#0.0000").format(bestInGeneration));
-			bestInGenerationArray[i] = bestInGeneration;
+			System.out.println("Generation " + i);
+			bestInGeneration.printPopulation();
+			
+			bestInGeneration.updateFitness();
+			bestInGenerationArray[i] = bestInGeneration.getFitness();
 			generations[i] = i;
 		}
 		

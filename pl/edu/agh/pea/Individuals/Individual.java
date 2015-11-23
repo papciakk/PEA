@@ -68,5 +68,9 @@ public class Individual implements Cloneable {
 		System.out.println("has fitness: " + String.format("%.3f", getFitness()));
 	}
 	
+	public Individual clone() throws CloneNotSupportedException {
+-       	return (Individual) super.clone();
+-    	}
+	
 
 }

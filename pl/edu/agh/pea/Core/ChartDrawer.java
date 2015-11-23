@@ -1,3 +1,5 @@
+package pl.edu.agh.pea.Core;
+
 import java.awt.Color; 
 import java.awt.BasicStroke; 
 import org.jfree.chart.ChartPanel; 

@@ -14,7 +14,6 @@ public class Individual implements Cloneable {
 		this.dimmensions = problemParameters.dimensions;
 		this.ACoefficient = problemParameters.ACoefficient;
 		genotype = new double [dimmensions];
-		setFitness();
 	}
 
 	public void setFitness(){

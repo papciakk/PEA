@@ -36,7 +36,7 @@ public class Individual implements Cloneable {
 		//TODO - aktualizuje genotyp osobnika
 	}
 
-	public void updateGen(int n){
+	public void updateGen(int n, double gen){
 		//TODO - zmienia konkretny gen
 	}
 
@@ -44,7 +44,7 @@ public class Individual implements Cloneable {
 		//TODO - zwraca losowy genotyp osobnika
 	}
 
-	public void setGen(){
+	public void setGen(double gen){
 		//TODO - ustawia gen
 	}
 

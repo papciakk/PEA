@@ -16,14 +16,14 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 public class ChartDrawer extends ApplicationFrame 
 {
-   public ChartDrawer( String applicationTitle, String chartTitle, int[] xSet, double[] ySet )
+   public ChartDrawer( String applicationTitle, String chartTitle, double[] ySet )
    {
       super(applicationTitle);
       JFreeChart xylineChart = ChartFactory.createXYLineChart(
          chartTitle ,
          "Generation" ,
          "Best individual" ,
-         createDataset(xSet, ySet) ,
+         createDataset(ySet) ,
          PlotOrientation.VERTICAL ,
          false , true , false);
          
@@ -37,13 +37,13 @@ public class ChartDrawer extends ApplicationFrame
       setContentPane( chartPanel ); 
    }
    
-   private XYDataset createDataset(int[] xSet, double[] ySet)
+   private XYDataset createDataset(double[] ySet)
    {
       final XYSeries result = new XYSeries( "Best Individual in Generation" );          
-      int i = 0;
+      int x = 1;
       for(double y : ySet){
-    	  result.add(xSet[i], y);
-    	  i++;
+    	  result.add(x, y);
+    	  x++;
       }
  
       final XYSeriesCollection dataset = new XYSeriesCollection( );          
@@ -51,8 +51,8 @@ public class ChartDrawer extends ApplicationFrame
       return dataset;
    }
    
-   public static void drawPlot(int[] xSet, double[] ySet){
-	   ChartDrawer chart = new ChartDrawer("PEA - Rastrigin's Function", "Best Individual in Generation", xSet, ySet);
+   public static void drawPlot(double[] ySet){
+	   ChartDrawer chart = new ChartDrawer("PEA - Rastrigin's Function", "Best Individual in Generation", ySet);
 	   chart.pack( );          
 	   RefineryUtilities.centerFrameOnScreen( chart );          
 	   chart.setVisible( true );

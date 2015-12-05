@@ -35,7 +35,7 @@ public class Operators {
 	
 	private void evaluate() {
 		for(Individual i : population) {
-			i.updateFitness();
+			i.setFitness();
 		}
 	}
 	
@@ -64,22 +64,39 @@ public class Operators {
 		for(int j = 0; j < problemParameters.population; j++)
 			for(int i = 0; i < problemParameters.population; i++)
 				if(i!=j && (Math.random() <= problemParameters.crossCoefficient)) {
-					Individual child = new Individual(problemParameters, false);
-					for(int k = 0; k < problemParameters.dimensions; k++) {
-						child.x[k] = (population.get(i).x[rand.nextInt(problemParameters.dimensions-1)] 
-								+ population.get(j).x[rand.nextInt(problemParameters.dimensions-1)])/2;
-					}
-					population.add(child);
+					doCrossover(i,j);
 				}
+	}
+	
+	private void doCrossover(int i, int j) {
+		int geneID1, geneID2;
+		double newGene;
+		Individual child = new Individual(problemParameters);
+		
+		for(int k = 0; k < problemParameters.dimensions; k++) {
+			geneID1 = rand.nextInt(problemParameters.dimensions-1);
+			geneID2 = rand.nextInt(problemParameters.dimensions-1);
+			newGene = (population.get(i).getGen(geneID1)
+				+ population.get(j).getGen(geneID2))/2;
+			child.updateGen(k, newGene);
+		}
+		population.add(child);
 	}
 	
 	private void mutate() {
 		for(Individual i : population)
 			if(rand.nextDouble() <= problemParameters.mutationCoefficient) {
-				for(int j = 0; j < problemParameters.dimensions; j++) {
-					i.x[j] += rand.nextDouble() * 2*Math.PI - Math.PI;
+				doMutation(i);
 			}
-		}
+	}
+	
+	private void doMutation(Individual i) {
+		double newValue;
+		
+		for(int j = 0; j < problemParameters.dimensions; j++) {
+			newValue = i.getGen(j) + rand.nextDouble() * 2*Math.PI - Math.PI;
+			i.updateGen(j, newValue);
+	}
 	}
 	
 	

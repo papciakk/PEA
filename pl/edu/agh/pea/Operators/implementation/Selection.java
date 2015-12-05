@@ -5,36 +5,32 @@ import java.util.PriorityQueue;
 
 import pl.edu.agh.pea.Core.ProblemParameters;
 import pl.edu.agh.pea.Individuals.Individual;
-import pl.edu.agh.pea.Operators.ISelection;
+import pl.edu.agh.pea.Operators.IOperator;
 
-public class Selection implements ISelection {
+public class Selection implements IOperator {
 
 	private PriorityQueue<Individual> heap;
-	private List<Individual> data;
-	private ProblemParameters problemParameters;
 	private IndividualComparator comparator;
+	
+	private List<Individual> population;
 	
 	public Selection() {
 		comparator = new IndividualComparator();
 	}
 	
 	public void execute() {
+			
 		heap = new PriorityQueue<Individual>(comparator);
 		
-		heap.addAll(data);
+		heap.addAll(population);
 		
-		this.data.clear();
-	    for(int i = 0; i < problemParameters.population; i++) {
-	    	data.add(heap.poll());
+		this.population.clear();
+	    for(int i = 0; i < ProblemParameters.population; i++) {
+	    	population.add(heap.poll());
 	    }
 	}
 
-	public void setInput(List<Individual> input, ProblemParameters problemParameters) {
-		this.data = input;
-		this.problemParameters = problemParameters;
-	}
-
-	public List<Individual> getResults() {
-		return data;
+	public void setInputPopulation(List<Individual> population) {
+		this.population = population;
 	}
 }

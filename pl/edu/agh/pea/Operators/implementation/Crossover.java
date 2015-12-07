@@ -19,17 +19,18 @@ public class Crossover implements IOperator {
 	public void execute() {
 		double [] newGenotype;
 		double[] genotype1;
-		double[] genotype2;
+		double[] genotype2;		
 		
-		for(Individual i1 : population)
-			for(Individual i2 : population)
+		for(int i = 0; i < ProblemParameters.population; i++)
+			for(int j = 0; j < ProblemParameters.population; j++) {
 				if(rand.nextDouble() <= ProblemParameters.crossCoefficient) {
-					genotype1 = i1.getGenotype();
-					genotype2 = i2.getGenotype();
+					genotype1 = population.get(i).getGenotype();
+					genotype2 = population.get(j).getGenotype();
 					
 					newGenotype = crossoverIndividuals(genotype1, genotype2);
 					population.add(new Individual(newGenotype));
 				}
+			}
 	}
 
 	public void setInputPopulation(List<Individual> population) {

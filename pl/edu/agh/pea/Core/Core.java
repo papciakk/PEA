@@ -3,15 +3,14 @@ package pl.edu.agh.pea.Core;
 import pl.edu.agh.pea.Individuals.Individual;
 import pl.edu.agh.pea.Operators.IOperator;
 import pl.edu.agh.pea.Operators.OperatorFactory;
-import pl.edu.agh.pea.Operators.implementation.*;
 
-import java.io.*;
 import java.util.*;
 
 ////Core version 1.2
 
 public class Core {	
 	private static List<Individual> population;
+	private List<IOperator> operators;
 	
 	private IParametersImporter parametersImporter;
 	
@@ -22,38 +21,37 @@ public class Core {
 	private void solve()
 	{
 		population = new ArrayList<Individual>();
-		Individual bestInGeneration;
-		
-		double [] bestInGenerationArray = new double [ProblemParameters.generations];
-		
 		for(int i = 0; i < ProblemParameters.population; i++) 
 			population.add(new Individual(ProblemParameters.dimensions));
 		
-		IOperator iop;
-		iop.setInputPopulation(population);
-		List<IOperator> operators = OperatorFactory.getOperatorList(Arrays.asList("Crossover","Evaluation","Mutation","Selection"));
-		
+		Individual bestInGeneration;
+		double [] bestInGenerationArray = new double [ProblemParameters.generations];
 		
 		for(int i = 0; i < ProblemParameters.generations; i++)
 		{
-			bestInGeneration = processGeneration(population);
+			bestInGeneration = processGeneration();
 			System.out.println("Generation " + i);
-			
 			bestInGenerationArray[i] = bestInGeneration.getFitness();
-			
-			System.out.println(bestInGenerationArray[i]);
+			bestInGeneration.printIndividual();
 		}
 		
 		ChartDrawer.drawPlot(bestInGenerationArray);
 	}
 	
-	private Individual processGeneration(List<Individual> population){
+	
+	
+	private Individual processGeneration(){
+
+		operators = OperatorFactory.getOperatorList(Arrays.asList("Crossover","Mutation","Evaluation","Selection"));
 		
-		Individual best = null;
-		//TODO
-		return best;
-		
+		for(IOperator operator: operators){
+			operator.setInputPopulation(population);
+			operator.execute();
+		}
+	
+		return population.get(0);
 	}
+	
 	
 	public static List<Individual> getPopulation(){
 		return population;

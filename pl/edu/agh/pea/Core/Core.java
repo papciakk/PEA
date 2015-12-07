@@ -1,7 +1,9 @@
 package pl.edu.agh.pea.Core;
 
 import pl.edu.agh.pea.Individuals.Individual;
+import pl.edu.agh.pea.Operators.IOperator;
 import pl.edu.agh.pea.Operators.OperatorFactory;
+import pl.edu.agh.pea.Operators.implementation.*;
 
 import java.io.*;
 import java.util.*;
@@ -9,45 +11,52 @@ import java.util.*;
 ////Core version 1.2
 
 public class Core {	
-	static List<Individual> population;
-	static OperatorFactory operators;
+	private static List<Individual> population;
 	
-	private static ProblemParameters problemParameters;
-	private static IParametersImporter parametersImporter;
+	private IParametersImporter parametersImporter;
 	
-	public Core(IParametersImporter parametersImporter, ProblemParameters pp){
-		Core.parametersImporter = parametersImporter;
-		Core.problemParameters = pp;
+	public Core(IParametersImporter parametersImporter){
+		this.parametersImporter = parametersImporter;
 	}
 	
-	public static void solve()
+	private void solve()
 	{
 		population = new ArrayList<Individual>();
 		Individual bestInGeneration;
 		
-		double [] bestInGenerationArray = new double [problemParameters.generations];
+		double [] bestInGenerationArray = new double [ProblemParameters.generations];
 		
-		for(int i = 0; i < problemParameters.population; i++) 
-			population.add(new Individual(problemParameters));
-
-		operators = new Operators(population, problemParameters);
+		for(int i = 0; i < ProblemParameters.population; i++) 
+			population.add(new Individual(ProblemParameters.dimensions));
 		
-		for(int i = 0; i < problemParameters.generations; i++)
+		IOperator iop;
+		iop.setInputPopulation(population);
+		List<IOperator> operators = OperatorFactory.getOperatorList(Arrays.asList("Crossover","Evaluation","Mutation","Selection"));
+		
+		
+		for(int i = 0; i < ProblemParameters.generations; i++)
 		{
-			bestInGeneration = operators.nextGeneration();
+			bestInGeneration = processGeneration(population);
 			System.out.println("Generation " + i);
-			bestInGeneration.printPopulation();
 			
-			bestInGeneration.updateFitness();
 			bestInGenerationArray[i] = bestInGeneration.getFitness();
+			
+			System.out.println(bestInGenerationArray[i]);
 		}
 		
 		ChartDrawer.drawPlot(bestInGenerationArray);
 	}
 	
-	public static ProblemParameters getProblemParameters()
-	{
-		return problemParameters;
+	private Individual processGeneration(List<Individual> population){
+		
+		Individual best = null;
+		//TODO
+		return best;
+		
+	}
+	
+	public static List<Individual> getPopulation(){
+		return population;
 	}
 	
 	
@@ -59,14 +68,14 @@ public class Core {
 			return;
 		}
 		
-		Core c = new Core(new ParametersFromFile(args[0]), new ProblemParameters());
+		Core c = new Core(new ParametersFromFile(args[0]));
 		
-		if(getProblemParameters().importProblemParameters(parametersImporter) == false)
+		if(ProblemParameters.importProblemParameters(c.parametersImporter) == false)
 		{
 			return;
 		}
 		
-		solve();
+		c.solve();
 	}
 
 }

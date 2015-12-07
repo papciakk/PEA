@@ -2,19 +2,18 @@ package pl.edu.agh.pea.Core;
 
 //ProblemParameters version 1.0
 public class ProblemParameters {
-	private IParametersImporter parametersImporter;
 	
-	public int dimensions;
-	public int generations;
-	public int population;
+	public static int dimensions;
+	public static int generations;
+	public static int population;
 	
-	public double mutationCoefficient;
-	public double crossCoefficient;
+	public static double mutationCoefficient;
+	public static double crossCoefficient;
 	
 	//Rastrigin function
-	public double ACoefficient;
+	public static double ACoefficient;
 	
-	public void coefficientsStandarization() throws ArithmeticException
+	public static void coefficientsStandarization() throws ArithmeticException
 	{
 		double coefficientsSum = mutationCoefficient + crossCoefficient;
 		
@@ -39,8 +38,7 @@ public class ProblemParameters {
 		coefficientsStandarization();
 	}
 	
-	public boolean importProblemParameters(IParametersImporter paramsImporter){
-		parametersImporter = paramsImporter;
-		return parametersImporter.importParameters(this);
+	public static boolean importProblemParameters(IParametersImporter paramsImporter){
+		return paramsImporter.importParameters();
 	}
 }

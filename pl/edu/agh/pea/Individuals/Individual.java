@@ -23,7 +23,7 @@ public class Individual {
 		this.fitness = fitness;
 	}
 
-	public void getFitness(){ return this.fitness; }
+	public double getFitness(){ return this.fitness; }
 
 	public void setGenotype( double [] genotype ){
 		for(int i = 0; i < dimmension; i++){

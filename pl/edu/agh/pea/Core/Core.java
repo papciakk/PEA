@@ -11,7 +11,6 @@ import java.util.*;
 public class Core {	
 	private static List<Individual> population;
 	private List<IOperator> operators;
-	private int test;
 	
 	private IParametersImporter parametersImporter;
 	

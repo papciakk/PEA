@@ -1,4 +1,4 @@
-package pl.edu.agh.pea.individuals;
+package pl.edu.agh.pea.Individuals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +15,18 @@ public class IndividualTest {
         individual2 = new Individual(4);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testIndividualNull(){
+        double [] newGenotype = null;
+        Individual newIndividual = new Individual(newGenotype);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIndividualIllegalLength(){
+        double [] newGenotype = new double[]{};
+        Individual newIndividual = new Individual(newGenotype);
+    }
+
     @Test
     public void testSetFitness() throws Exception {
         individual.setFitness(10.15);
@@ -25,21 +37,52 @@ public class IndividualTest {
     }
 
     @Test
-    public void testSetGenotype() throws Exception {
-        individual.setGenotype(new double[]{2.5, 3.4, 5.6});
-        assertArrayEquals(new double[]{2.5, 3.4, 5.6}, individual.getGenotype(), 0.01);
+    public void testSetGenotype() throws Exception{
+        individual.setGenotype(new double[]{2.5, 3.4, 5.1});
+        assertArrayEquals(new double[]{2.5, 3.4, 5.1}, individual.getGenotype(), 0.01);
     }
 
-    @Test(expected = Exception.class)
-    public void testSetGet() throws Exception {
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetGenotypeIllegalArgument() throws Exception {
+        individual2.setGenotype(new double[] {5.1, 5.6, 2.1});
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetGenotypeIllegalLength() throws Exception {
+        individual.setGenotype(new double[] {5.1, 3.9});
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetGenotypeNull() throws Exception {
+        double [] newGenotype = null;
+        individual.setGenotype(newGenotype);
+    }
+
+
+    @Test
+    public void testSetGen() throws Exception {
         individual.setGen(2, 3.4);
         assertEquals(3.4, individual.getGen(2), 0.01);
-
-        individual2.setGen(10, 4.5);
     }
 
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testSetGenIndexOutOfBound(){
+        individual.setGen(10, 4.5);
+    }
+
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetGenIllegalArgument(){
+        individual.setGen(1, 12.5);
+    }
+
+
     @Test(expected = Exception.class)
-    public void testGetGen() throws Exception {;
+    public void testGetGen() throws Exception {
         individual.getGen(10);
     }
 }

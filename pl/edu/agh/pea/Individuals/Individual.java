@@ -5,17 +5,17 @@ import java.util.Random;
 public class Individual {
 	private double [] genotype;
 	private double fitness;
-	private int dimmension;
+	private int dimension;
 	
-	public Individual (int dimmension) {
-		this.dimmension = dimmension;
-		this.genotype = new double [dimmension];
+	public Individual (int dimension) {
+		this.dimension = dimension;
+		this.genotype = new double [dimension];
 		randomGenotype();
 	}
 
 	public Individual (double [] genotype) {
-		this.dimmension = genotype.length;
-		this.genotype = new double [dimmension];
+		this.dimension = genotype.length;
+		this.genotype = new double [dimension];
 		this.setGenotype(genotype);
 	}
 
@@ -25,8 +25,8 @@ public class Individual {
 
 	public double getFitness(){ return this.fitness; }
 
-	public void setGenotype( double [] genotype ){
-		for(int i = 0; i < dimmension; i++){
+	public void setGenotype( double [] genotype ) {
+		for(int i = 0; i < dimension; i++){
 			this.genotype[i] = genotype[i];
 		}
 	}
@@ -35,13 +35,14 @@ public class Individual {
 		Random randomNum = new Random();
 		double value;
 
-		for(int i = 0; i < dimmension; i++){
+		for(int i = 0; i < dimension; i++){
 			value = randomNum.nextDouble()*10.24 - 5.11;
 			this.setGen(i, value);
 		}
 	}
 
-	public [] double getGenotype(){
+	public double [] getGenotype(){
+
 		return this.genotype;
 	}
 

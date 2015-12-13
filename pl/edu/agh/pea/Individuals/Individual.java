@@ -1,7 +1,6 @@
 package pl.edu.agh.pea.Individuals;
 
 import java.util.Random;
-import java.util.Random;
 
 public class Individual {
 	private double [] genotype;

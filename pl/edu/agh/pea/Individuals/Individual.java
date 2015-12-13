@@ -1,11 +1,12 @@
 package pl.edu.agh.pea.Individuals;
 
 import java.util.Random;
+import java.util.Random;
 
 public class Individual {
 	private double [] genotype;
 	private double fitness;
-	private int dimension;
+	protected int dimension;
 	
 	public Individual (int dimension) {
 		this.dimension = dimension;
@@ -14,8 +15,16 @@ public class Individual {
 	}
 
 	public Individual (double [] genotype) {
+		if (genotype == null) {
+			throw new IllegalArgumentException("Genotype cannot be null");
+		}
+
+		if (genotype.length == 0){
+			throw new IllegalArgumentException("Genotype cannot be of zero length");
+		}
+
 		this.dimension = genotype.length;
-		this.genotype = new double [dimension];
+		this.genotype = new double[dimension];
 		this.setGenotype(genotype);
 	}
 
@@ -26,8 +35,19 @@ public class Individual {
 	public double getFitness(){ return this.fitness; }
 
 	public void setGenotype( double [] genotype ) {
+		if (genotype == null){
+			throw new IllegalArgumentException("Argument cannot be null");
+		}
+
+		if (genotype.length != dimension){
+			throw new IllegalArgumentException("Wrong length of genotype, should be" + dimension);
+		}
+
 		for(int i = 0; i < dimension; i++){
-			this.genotype[i] = genotype[i];
+			if (genotype[i] < -5.12 || genotype[i] > 5.12){
+				throw new IllegalArgumentException("Gen #" + i + " out of range");
+			} else
+				this.genotype[i] = genotype[i];
 		}
 	}
 
@@ -42,12 +62,14 @@ public class Individual {
 	}
 
 	public double [] getGenotype(){
-
 		return this.genotype;
 	}
 
 	public void setGen(int n, double value){
-		this.genotype[n] = value;
+		if (value < -5.12 || value > 5.12){
+			throw new IllegalArgumentException("Value of gen out of range");
+		} else
+			this.genotype[n] = value;
 	}
 
 	public double getGen(int n){ return this.genotype[n]; }

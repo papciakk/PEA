@@ -1,4 +1,4 @@
 # PEA
 ### Projekt z przedmiotu Technologie Obiektowe
 
-Wyznaczanie minimum globalnego funkcni Rastrigina przy użyciu programowania ewolucyjnego.
+Wyznaczanie minimum globalnego funkcji Rastrigina przy użyciu programowania ewolucyjnego.

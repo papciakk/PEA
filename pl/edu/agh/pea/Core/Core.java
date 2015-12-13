@@ -18,7 +18,14 @@ public class Core {
 		this.parametersImporter = parametersImporter;
 	}
 	
-	private void solve()
+	public Core(IParametersImporter parametersImporter, List<Individual> population, List<IOperator> operators)
+	{
+		this.parametersImporter = parametersImporter;
+		this.population = population;
+		this.operators = operators;
+	}
+	
+	public void solve()
 	{
 		population = new ArrayList<Individual>();
 		for(int i = 0; i < ProblemParameters.population; i++) 
@@ -38,7 +45,10 @@ public class Core {
 		ChartDrawer.drawPlot(bestInGenerationArray);
 	}
 	
-	
+	public Individual getBestIndividual()
+	{
+		return population.get(0);
+	}
 	
 	private Individual processGeneration(){
 
@@ -49,7 +59,7 @@ public class Core {
 			operator.execute();
 		}
 	
-		return population.get(0);
+		return getBestIndividual();
 	}
 	
 	

@@ -12,8 +12,6 @@ public class ParametersFromFileTest {
 	public void test() {
 		ParametersFromFile pff = new ParametersFromFile("some_file_name");
 		assertEquals("Wrong file name", pff.getFileName(), "some_file_name");
-		
-		
 	}
 
 }

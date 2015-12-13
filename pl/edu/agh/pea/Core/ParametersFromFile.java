@@ -18,6 +18,11 @@ public class ParametersFromFile implements IParametersImporter{
 		return readConfigFile(fileName);
 	}
 	
+	public String getFileName()
+	{
+		return fileName;
+	}
+	
 	private static boolean readConfigFile(String fileName)
 	{
 		BufferedReader br = null;

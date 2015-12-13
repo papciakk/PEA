@@ -19,6 +19,10 @@ public class Selection implements IOperator {
 	}
 	
 	public void execute() {
+		if(population == null) {
+			System.out.println("Nie ustawiono populacji wejściowej");
+			return;
+		}
 			
 		heap = new PriorityQueue<Individual>(comparator);
 		
@@ -31,6 +35,10 @@ public class Selection implements IOperator {
 	}
 
 	public void setInputPopulation(List<Individual> population) {
+		if (population != null || population.size() == 0) {
+			System.out.println("Populacja nie zostala poprawnie zainicjowana.");
+			return;
+		}
 		this.population = population;
 	}
 }

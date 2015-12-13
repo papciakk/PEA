@@ -14,12 +14,19 @@ public class Crossover implements IOperator {
 	
 	public Crossover() {
 		rand = new Random();
+		population = null;
 	}
 	
 	public void execute() {
+		
+		if(population == null) {
+			System.out.println("Nie ustawiono populacji wejściowej");
+			return;
+		}
+		
 		double [] newGenotype;
 		double[] genotype1;
-		double[] genotype2;		
+		double[] genotype2;
 		
 		for(int i = 0; i < ProblemParameters.population; i++)
 			for(int j = 0; j < ProblemParameters.population; j++) {
@@ -34,6 +41,10 @@ public class Crossover implements IOperator {
 	}
 
 	public void setInputPopulation(List<Individual> population) {
+		if (population != null || population.size() == 0) {
+			System.out.println("Populacja nie zostala poprawnie zainicjowana.");
+			return;
+		}
 		this.population = population;		
 	}
 	

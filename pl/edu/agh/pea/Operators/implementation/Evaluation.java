@@ -27,12 +27,21 @@ public class Evaluation implements IOperator {
 	};
 
 	public void execute() {
+		if(population == null) {
+			System.out.println("Nie ustawiono populacji wejściowej");
+			return;
+		}
+		
 		for(Individual individual : population) {
 			this.evaluateIndividual(lt_1, individual);
 		}
 	}
 
 	public void setInputPopulation(List<Individual> population) {
+		if (population != null || population.size() == 0) {
+			System.out.println("Populacja nie zostala poprawnie zainicjowana.");
+			return;
+		}
 		this.population = population;
 	}
 	

@@ -14,9 +14,9 @@ public class Core {
 	
 	private IParametersImporter parametersImporter;
 	
-	public Core(IParametersImporter parametersImporter){
+	/*public Core(IParametersImporter parametersImporter){
 		this.parametersImporter = parametersImporter;
-	}
+	}*/
 	
 	public Core(IParametersImporter parametersImporter, List<Individual> population, List<IOperator> operators)
 	{
@@ -27,10 +27,6 @@ public class Core {
 	
 	public void solve()
 	{
-		population = new ArrayList<Individual>();
-		for(int i = 0; i < ProblemParameters.population; i++) 
-			population.add(new Individual(ProblemParameters.dimensions));
-		
 		Individual bestInGeneration;
 		double [] bestInGenerationArray = new double [ProblemParameters.generations];
 		
@@ -42,7 +38,7 @@ public class Core {
 			bestInGeneration.printIndividual();
 		}
 		
-		ChartDrawer.drawPlot(bestInGenerationArray);
+		//ChartDrawer.drawPlot(bestInGenerationArray);
 	}
 	
 	public Individual getBestIndividual()
@@ -52,8 +48,6 @@ public class Core {
 	
 	private Individual processGeneration(){
 
-		operators = OperatorFactory.getOperatorList(Arrays.asList("Crossover","Mutation","Evaluation","Selection"));
-		
 		for(IOperator operator: operators){
 			operator.setInputPopulation(population);
 			operator.execute();
@@ -76,7 +70,15 @@ public class Core {
 			return;
 		}
 		
-		Core c = new Core(new ParametersFromFile(args[0]));
+		IParametersImporter ipm = new ParametersFromFile(args[0]);
+		ipm.importParameters();
+		
+		List<IOperator> operators = OperatorFactory.getOperatorList(Arrays.asList("Crossover","Mutation","Evaluation","Selection"));
+		List<Individual> population = new ArrayList<Individual>();
+		for(int i = 0; i < ProblemParameters.population; i++) 
+			population.add(new Individual(ProblemParameters.dimensions));
+		
+		Core c = new Core(ipm, population, operators);
 		
 		if(ProblemParameters.importProblemParameters(c.parametersImporter) == false)
 		{

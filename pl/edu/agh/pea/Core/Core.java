@@ -6,22 +6,19 @@ import pl.edu.agh.pea.Operators.OperatorFactory;
 
 import java.util.*;
 
-////Core version 1.2
+import com.google.inject.*;
 
 public class Core {	
 	private static List<Individual> population;
 	private List<IOperator> operators;
 	
 	private IParametersImporter parametersImporter;
-	
-	/*public Core(IParametersImporter parametersImporter){
-		this.parametersImporter = parametersImporter;
-	}*/
-	
+
+	@Inject
 	public Core(IParametersImporter parametersImporter, List<Individual> population, List<IOperator> operators)
 	{
 		this.parametersImporter = parametersImporter;
-		this.population = population;
+		Core.population = population;
 		this.operators = operators;
 	}
 	
@@ -38,7 +35,7 @@ public class Core {
 			bestInGeneration.printIndividual();
 		}
 		
-		//ChartDrawer.drawPlot(bestInGenerationArray);
+		ChartDrawer.drawPlot(bestInGenerationArray);
 	}
 	
 	public Individual getBestIndividual()

@@ -24,15 +24,15 @@ public class EvaluationTest {
         boolean sameResults;
 
         List<Individual> testPopulation = new ArrayList<>();
-        for (int i = 0; i < ProblemParameters.population; i++) {
-            testPopulation.add(new Individual(ProblemParameters.dimensions));
+        for (int i = 0; i < ProblemParameters.getPopulation(); i++) {
+            testPopulation.add(new Individual(ProblemParameters.getDimensions()));
         }
 
         Evaluation evaluation = new Evaluation();
         evaluation.setInputPopulation(testPopulation);
         evaluation.execute();
 
-        for (int i = 0; i < ProblemParameters.population; i++) {
+        for (int i = 0; i < ProblemParameters.getPopulation(); i++) {
             notNaN = !Double.isNaN(testPopulation.get(i).getFitness());
             sameResults = Double.compare(testPopulation.get(i).getFitness(),
                     rastrigin(testPopulation.get(i))) == 0;
@@ -45,10 +45,10 @@ public class EvaluationTest {
         double fitness;
         double gene;
 
-        fitness = ProblemParameters.ACoefficient * ProblemParameters.dimensions;
-        for (int i = 0; i < ProblemParameters.dimensions; i++) {
+        fitness = ProblemParameters.getACoefficient() * ProblemParameters.getDimensions();
+        for (int i = 0; i < ProblemParameters.getDimensions(); i++) {
             gene = ind.getGen(i);
-            fitness += gene * gene - ProblemParameters.ACoefficient * Math.cos(2.0 * Math.PI * gene);
+            fitness += gene * gene - ProblemParameters.getACoefficient() * Math.cos(2.0 * Math.PI * gene);
         }
         return fitness;
     }

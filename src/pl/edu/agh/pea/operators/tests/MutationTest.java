@@ -22,8 +22,8 @@ public class MutationTest {
     public void test() {
         List<Individual> testPopulation = new ArrayList<>();
 
-        for (int i = 0; i < ProblemParameters.population; i++) {
-            testPopulation.add(new Individual(ProblemParameters.dimensions));
+        for (int i = 0; i < ProblemParameters.getPopulation(); i++) {
+            testPopulation.add(new Individual(ProblemParameters.getDimensions()));
         }
 
         List<double[]> unmutated = new ArrayList<>();

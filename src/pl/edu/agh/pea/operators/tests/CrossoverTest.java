@@ -21,18 +21,19 @@ public class CrossoverTest {
     @Test
     public void test() {
         List<Individual> testPopulation = new ArrayList<>();
-        for (int i = 0; i < ProblemParameters.population; i++) {
-            testPopulation.add(new Individual(ProblemParameters.dimensions));
+        for (int i = 0; i < ProblemParameters.getPopulation(); i++) {
+            testPopulation.add(new Individual(ProblemParameters.getDimensions()));
         }
 
         Crossover crossover = new Crossover();
         crossover.setInputPopulation(testPopulation);
         crossover.execute();
 
-        int childrenCount = testPopulation.size() - ProblemParameters.population;
+        int childrenCount = testPopulation.size() - ProblemParameters.getPopulation();
 
         //crossover coefficient is 1.0, so there should be <population size>^2 children
+        int popSize = ProblemParameters.getPopulation();
         assertTrue("Crossover Test",
-                childrenCount == ProblemParameters.population*ProblemParameters.population);
+                childrenCount == popSize*popSize);
     }
 }

@@ -8,7 +8,7 @@ public class Mutation extends Operator {
 
     protected void doOperation() {
         for (Individual individual : population) {
-            if (Math.random() <= ProblemParameters.mutationCoefficient) {
+            if (Math.random() <= ProblemParameters.getMutationCoefficient()) {
                 this.mutateIndividual(individual);
             }
         }
@@ -18,7 +18,7 @@ public class Mutation extends Operator {
         Double newGene;
         double change = 0.0;
 
-        for (int j = 0; j < ProblemParameters.dimensions; j++) {
+        for (int j = 0; j < ProblemParameters.getDimensions(); j++) {
             while(Double.compare(change, 0.0) == 0) {
                 change = Math.random() * 0.2 - 0.1;
             }

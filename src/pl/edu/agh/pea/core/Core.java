@@ -10,10 +10,7 @@ public class Core {
 	private List<Individual> population;
 	private List<Operator> operators;
 	
-	private IParametersImporter parametersImporter;
-	
-	public Core(IParametersImporter parametersImporter, List<Individual> population, List<Operator> operators){
-		this.parametersImporter = parametersImporter;
+	public Core(List<Individual> population, List<Operator> operators){
 		this.population = population;
 		this.operators = operators;
 	}
@@ -60,7 +57,10 @@ public class Core {
 		}
 		
 		IParametersImporter ipm = new ParametersFromFile(args[0]);
-		ipm.importParameters();
+		
+		if(ipm.importParameters() == false) {
+			return;
+		}
 		
 		List<Operator> operators = OperatorFactory.getOperatorList(Arrays.asList("Crossover","Mutation","Evaluation","Selection"));
 		List<Individual> population = new ArrayList<Individual>();
@@ -68,11 +68,7 @@ public class Core {
 			population.add(new Individual(ProblemParameters.getDimensions()));
 		}
 			
-		Core c = new Core(ipm, population, operators);
-		
-		if(ProblemParameters.importProblemParameters(c.parametersImporter) == false) {
-			return;
-		}
+		Core c = new Core(population, operators);
 		
 		c.solve();
 	}

@@ -23,7 +23,7 @@ public class CoreTest {
 			individuals.add(iv);
 		}
 		
-		Core core = new Core(ipm, individuals, null);
+		Core core = new Core(individuals, null);
 		core.solve();
 		
 		assertEquals("Wrong best individual", core.getBestIndividual(), individuals.get(0));

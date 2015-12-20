@@ -8,7 +8,6 @@ import java.util.List;
 
 public class ParametersFromFile implements IParametersImporter{
 	private String fileName;
-	//public ProblemParameters problemParameters = new ProblemParameters();
 	
 	public ParametersFromFile(String fileName){
 		this.fileName = fileName;
@@ -18,12 +17,11 @@ public class ParametersFromFile implements IParametersImporter{
 		return readConfigFile(fileName);
 	}
 	
-	public String getFileName()
-	{
+	public String getFileName(){
 		return fileName;
 	}
 	
-	private static boolean readConfigFile(String fileName)
+	private boolean readConfigFile(String fileName)
 	{
 		BufferedReader br = null;
 		List<String> configFile = new LinkedList<String>();
@@ -82,7 +80,7 @@ public class ParametersFromFile implements IParametersImporter{
 					System.out.println("Not a valid value on line " + configLineCounter);
 					return false;
 				}
-				ProblemParameters.dimensions = val;
+				ProblemParameters.setDimensions(val);
 			} else if(param.equals("GENERATIONS"))
 			{
 				int val;
@@ -95,7 +93,7 @@ public class ParametersFromFile implements IParametersImporter{
 					System.out.println("Not a valid value on line " + configLineCounter);
 					return false;
 				}
-				ProblemParameters.generations = val;
+				ProblemParameters.setGenerations(val);
 			} else if(param.equals("POPULATION"))
 			{
 				int val;
@@ -108,7 +106,7 @@ public class ParametersFromFile implements IParametersImporter{
 					System.out.println("Not a valid value on line " + configLineCounter);
 					return false;
 				}
-				ProblemParameters.population = val;
+				ProblemParameters.setPopulation(val);
 			} else if(param.equals("A_COEFF"))
 			{
 				int val;
@@ -121,7 +119,7 @@ public class ParametersFromFile implements IParametersImporter{
 					System.out.println("Not a valid value on line " + configLineCounter);
 					return false;
 				}
-				ProblemParameters.ACoefficient = val;
+				ProblemParameters.setACoefficient(val);
 			} 	
 			else if(param.equals("MUTATIONS_COEFF"))
 			{
@@ -135,7 +133,7 @@ public class ParametersFromFile implements IParametersImporter{
 					System.out.println("Not a valid value on line " + configLineCounter);
 					return false;
 				}
-				ProblemParameters.mutationCoefficient = val;
+				ProblemParameters.setMutationCoefficient(val);
 			} else if(param.equals("CROSS_COEFF"))
 			{
 				double val;
@@ -148,7 +146,7 @@ public class ParametersFromFile implements IParametersImporter{
 					System.out.println("Not a valid value on line " + configLineCounter);
 					return false;
 				}
-				ProblemParameters.crossCoefficient = val;
+				ProblemParameters.setCrossCoefficient(val);
 			}
 			
 			else 
@@ -160,31 +158,31 @@ public class ParametersFromFile implements IParametersImporter{
 			++configLineCounter;
 		}
 		
-		if(ProblemParameters.mutationCoefficient + ProblemParameters.crossCoefficient == 0.0)
+		if(ProblemParameters.getMutationCoefficient() + ProblemParameters.getCrossCoefficient() == 0.0)
 		{
 			System.out.println("Mutation Coefficient + Cross Coefficient must be greater than zero");
 			return false;
 		}
 		
-		if(ProblemParameters.mutationCoefficient < 0.0 || ProblemParameters.crossCoefficient < 0.0)
+		if(ProblemParameters.getMutationCoefficient() < 0.0 || ProblemParameters.getCrossCoefficient() < 0.0)
 		{
 			System.out.println("Mutation Coefficient and Cross Coefficient must be greater or equal zero each");
 			return false;
 		}
 		
-		if(ProblemParameters.dimensions < 0)
+		if(ProblemParameters.getDimensions() < 0)
 		{
 			System.out.println("Dimensions parameter not given or invalid (should be greater than 0)");
 			return false;
 		}
 		
-		if(ProblemParameters.generations < 0)
+		if(ProblemParameters.getGenerations() < 0)
 		{
 			System.out.println("Generations parameter not given or invalid (should be greater than 0)");
 			return false;
 		}
 		
-		if(ProblemParameters.population < 0)
+		if(ProblemParameters.getPopulation() < 0)
 		{
 			System.out.println("Population parameter not given or invalid (should be greater than 0)");
 			return false;

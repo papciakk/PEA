@@ -1,195 +1,168 @@
 package pl.edu.agh.pea.core;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ParametersFromFile implements IParametersImporter{
 	private String fileName;
+	private Map<String, String> parameters = null;
 	
 	public ParametersFromFile(String fileName){
 		this.fileName = fileName;
 	}
 	
-	public boolean importParameters(){
-		return readConfigFile(fileName);
+	public boolean importParameters(){		
+		try {
+			loadConfigFile();
+		} catch (InvalidConfigFileException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		if(loadProblemParameters() == false) {
+			return false;
+		}
+		
+		ProblemParameters.coefficientsStandarization();
+		
+		if(ProblemParameters.checkParametersCorrectness() == false) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public String getFileName(){
 		return fileName;
 	}
 	
-	private boolean readConfigFile(String fileName)
-	{
+	private String [] readConfigFile() throws InvalidConfigFileException{
 		BufferedReader br = null;
-		List<String> configFile = new LinkedList<String>();
-		int configLineCounter = 1;
+		List<String> configFile = new LinkedList<>();
+		String sCurrentLine;
 		
 		try {
-
-			String sCurrentLine;
-
 			br = new BufferedReader(new FileReader(fileName));
-
+		} catch (FileNotFoundException e) {
+			throw new InvalidConfigFileException("File \"" + fileName + "\" cannot be found or open");
+		}
+		
+		try {
 			while ((sCurrentLine = br.readLine()) != null) {
 				configFile.add(sCurrentLine);
 			}
-
+			br.close();
 		} catch (IOException e) {
-			System.out.println("File \"" + fileName + "\" cannot be found or open");
-		} finally {
-			try {
-				if (br != null) br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-				return false;
-			}
+			throw new InvalidConfigFileException("Error while reading \"" + fileName + "\" file");
 		}
 		
-		for(String s : configFile)
-		{
-			if(s.length() == 1)
-			{
-				System.out.println("Syntax error in config file on line " + configLineCounter);
-				return false;			
+		return (String[]) configFile.toArray();
+	}
+	
+	private Map<String, String> loadParametersFromConfigFile(String [] configFile) throws InvalidConfigFileException {
+		String s;
+		Map<String, String> parameters = new LinkedHashMap<>();
+		
+		for(int i = 0; i < configFile.length; ++i){
+			s = configFile[i];
+			
+			if(s.length() == 1){
+				throw new InvalidConfigFileException("Syntax error in config file on line " + i);		
 			}
-			if(s.length() == 0 || (s.charAt(0) == '/' && s.charAt(1) == '/'))
-			{
-				++configLineCounter;
+			if(s.length() == 0 || (s.charAt(0) == '/' && s.charAt(1) == '/')){
+				++i;
 				continue;
 			}
-			if(s.split("=").length < 2)
-			{
-				System.out.println("Syntax error in config file on line " + configLineCounter);
-				return false;
+			if(s.split("=").length < 2){
+				throw new InvalidConfigFileException("Syntax error in config file on line " + i);
 			}
 			
 			String param = s.split("=")[0];
 			String value = s.split("=")[1];
-			if(param.equals("DIMENSIONS"))
-			{
-				int val;
-				try
-				{
-					val = Integer.parseInt(value);
-				}
-				catch(NumberFormatException e)
-				{
-					System.out.println("Not a valid value on line " + configLineCounter);
-					return false;
-				}
-				ProblemParameters.setDimensions(val);
-			} else if(param.equals("GENERATIONS"))
-			{
-				int val;
-				try
-				{
-					val = Integer.parseInt(value);
-				}
-				catch(NumberFormatException e)
-				{
-					System.out.println("Not a valid value on line " + configLineCounter);
-					return false;
-				}
-				ProblemParameters.setGenerations(val);
-			} else if(param.equals("POPULATION"))
-			{
-				int val;
-				try
-				{
-					val = Integer.parseInt(value);
-				}
-				catch(NumberFormatException e)
-				{
-					System.out.println("Not a valid value on line " + configLineCounter);
-					return false;
-				}
-				ProblemParameters.setPopulation(val);
-			} else if(param.equals("A_COEFF"))
-			{
-				int val;
-				try
-				{
-					val = Integer.parseInt(value);
-				}
-				catch(NumberFormatException e)
-				{
-					System.out.println("Not a valid value on line " + configLineCounter);
-					return false;
-				}
-				ProblemParameters.setACoefficient(val);
-			} 	
-			else if(param.equals("MUTATIONS_COEFF"))
-			{
-				double val;
-				try
-				{
-					val = Double.parseDouble(value);
-				}
-				catch(NumberFormatException e)
-				{
-					System.out.println("Not a valid value on line " + configLineCounter);
-					return false;
-				}
-				ProblemParameters.setMutationCoefficient(val);
-			} else if(param.equals("CROSS_COEFF"))
-			{
-				double val;
-				try
-				{
-					val = Double.parseDouble(value);
-				}
-				catch(NumberFormatException e)
-				{
-					System.out.println("Not a valid value on line " + configLineCounter);
-					return false;
-				}
-				ProblemParameters.setCrossCoefficient(val);
-			}
 			
-			else 
-			{
-				System.out.println("Unknown parameter on line " + configLineCounter);
-				return false;
-			}
-			
-			++configLineCounter;
+			parameters.put(param,  value);
 		}
 		
-		if(ProblemParameters.getMutationCoefficient() + ProblemParameters.getCrossCoefficient() == 0.0)
-		{
-			System.out.println("Mutation Coefficient + Cross Coefficient must be greater than zero");
+		return parameters;
+	}
+	
+	private boolean loadProblemParameters()
+	{
+		if(parameters == null){
+			throw new NullPointerException();
+		}
+		
+		try {
+			ProblemParameters.setACoefficient(Integer.parseInt(parameters.get("A_COEFF")));
+		}
+		catch(NumberFormatException e) {
+			System.out.println("Not a valid value for A_COEFF");
 			return false;
 		}
 		
-		if(ProblemParameters.getMutationCoefficient() < 0.0 || ProblemParameters.getCrossCoefficient() < 0.0)
-		{
-			System.out.println("Mutation Coefficient and Cross Coefficient must be greater or equal zero each");
+		try{
+			ProblemParameters.setDimensions(Integer.parseInt(parameters.get("DIMENSTIONS")));
+		}
+		catch(NumberFormatException e){
+			System.out.println("Not a valid value for DIMENSIONS");
 			return false;
 		}
 		
-		if(ProblemParameters.getDimensions() < 0)
-		{
-			System.out.println("Dimensions parameter not given or invalid (should be greater than 0)");
+		try{
+			ProblemParameters.setGenerations(Integer.parseInt(parameters.get("GENERATIONS")));
+		}
+		catch(NumberFormatException e){
+			System.out.println("Not a valid value for GENERATIONS");
 			return false;
 		}
 		
-		if(ProblemParameters.getGenerations() < 0)
-		{
-			System.out.println("Generations parameter not given or invalid (should be greater than 0)");
+		try{
+			ProblemParameters.setPopulation(Integer.parseInt(parameters.get("POPULATION")));
+		}
+		catch(NumberFormatException e){
+			System.out.println("Not a valid value for POPULATION");
 			return false;
 		}
 		
-		if(ProblemParameters.getPopulation() < 0)
-		{
-			System.out.println("Population parameter not given or invalid (should be greater than 0)");
+		try{
+			ProblemParameters.setCrossCoefficient(Double.parseDouble(parameters.get("CROSS_COEFF")));
+		}
+		catch(NumberFormatException e){
+			System.out.println("Not a valid value for CROSS_COEFF");
 			return false;
 		}
 		
-		ProblemParameters.coefficientsStandarization();
+		try{
+			ProblemParameters.setCrossCoefficient(Double.parseDouble(parameters.get("MUTATIONS_COEFF")));
+		}
+		catch(NumberFormatException e){
+			System.out.println("Not a valid value for MUTATIONS_COEFF");
+			return false;
+		}
 		
 		return true;
+	}
+	
+	private void loadConfigFile() throws InvalidConfigFileException
+	{
+		String [] configFile;
+		
+		try {
+			configFile = readConfigFile();
+		}catch(InvalidConfigFileException e){
+			throw e;
+		}
+		
+		try {
+			parameters = loadParametersFromConfigFile(configFile);
+		} catch (InvalidConfigFileException e) {
+			throw e;
+		}
 	}
 }

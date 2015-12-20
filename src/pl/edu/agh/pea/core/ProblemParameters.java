@@ -40,6 +40,40 @@ public class ProblemParameters {
 	public static boolean importProblemParameters(IParametersImporter paramsImporter){
 		return paramsImporter.importParameters();
 	}
+	
+	public static boolean checkParametersCorrectness() {
+		if(ProblemParameters.getMutationCoefficient() + ProblemParameters.getCrossCoefficient() == 0.0)
+		{
+			System.out.println("Mutation Coefficient + Cross Coefficient must be greater than zero");
+			return false;
+		}
+		
+		if(ProblemParameters.getMutationCoefficient() < 0.0 || ProblemParameters.getCrossCoefficient() < 0.0)
+		{
+			System.out.println("Mutation Coefficient and Cross Coefficient must be greater or equal zero each");
+			return false;
+		}
+		
+		if(ProblemParameters.getDimensions() < 0)
+		{
+			System.out.println("Dimensions parameter not given or invalid (should be greater than 0)");
+			return false;
+		}
+		
+		if(ProblemParameters.getGenerations() < 0)
+		{
+			System.out.println("Generations parameter not given or invalid (should be greater than 0)");
+			return false;
+		}
+		
+		if(ProblemParameters.getPopulation() < 0)
+		{
+			System.out.println("Population parameter not given or invalid (should be greater than 0)");
+			return false;
+		}
+		
+		return true;
+	}
 
 	public static int getDimensions() {
 		return dimensions;

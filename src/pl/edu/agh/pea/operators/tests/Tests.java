@@ -21,12 +21,12 @@ public class Tests {
     }
 
     public static void initProblemParameters() {
-        ProblemParameters.dimensions = 20;
-        ProblemParameters.generations = 20;
-        ProblemParameters.population = 50;
-        ProblemParameters.mutationCoefficient = 1.0;
-        ProblemParameters.crossCoefficient = 1.0;
-        ProblemParameters.ACoefficient = 10.0;
+        ProblemParameters.setDimensions(20);
+        ProblemParameters.setGenerations(20);
+        ProblemParameters.setPopulation(50);
+        ProblemParameters.setMutationCoefficient(1.0);
+        ProblemParameters.setCrossCoefficient(1.0);
+        ProblemParameters.setACoefficient(10.0);
     }
 
     public static void main(String[] argv) {

@@ -14,10 +14,10 @@ public class Evaluation extends Operator {
         double fitness;
         double gene;
 
-        fitness = ProblemParameters.ACoefficient * ProblemParameters.dimensions;
-        for (int i = 0; i < ProblemParameters.dimensions; i++) {
+        fitness = ProblemParameters.getACoefficient() * ProblemParameters.getDimensions();
+        for (int i = 0; i < ProblemParameters.getDimensions(); i++) {
             gene = x.getGen(i);
-            fitness += gene * gene - ProblemParameters.ACoefficient * Math.cos(2.0 * Math.PI * gene);
+            fitness += gene * gene - ProblemParameters.getACoefficient() * Math.cos(2.0 * Math.PI * gene);
         }
         return fitness;
     };

@@ -23,8 +23,8 @@ public class SelectionTest {
     public void test() {
         List<Individual> testPopulation = new ArrayList<>();
 
-        for (int i = 0; i < ProblemParameters.population * 5; i++) {
-            testPopulation.add(new Individual(ProblemParameters.dimensions));
+        for (int i = 0; i < ProblemParameters.getPopulation() * 5; i++) {
+            testPopulation.add(new Individual(ProblemParameters.getDimensions()));
         }
 
         Evaluation evaluation = new Evaluation();
@@ -36,7 +36,7 @@ public class SelectionTest {
         selection.execute();
 
         // test number of selected individuals
-        assertTrue("Selection Test - size", testPopulation.size() == ProblemParameters.population);
+        assertTrue("Selection Test - size", testPopulation.size() == ProblemParameters.getPopulation());
 
         // test if population is sorted
         boolean sorted = true;

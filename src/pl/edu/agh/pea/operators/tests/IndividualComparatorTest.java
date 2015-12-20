@@ -17,7 +17,7 @@ public class IndividualComparatorTest {
     public void test() {
         List<Individual> testPopulation = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            testPopulation.add(new Individual(ProblemParameters.dimensions));
+            testPopulation.add(new Individual(ProblemParameters.getDimensions()));
         }
 
         Evaluation evaluation = new Evaluation();

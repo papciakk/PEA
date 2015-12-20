@@ -1,4 +1,4 @@
-package pl.edu.agh.pea.core.Test;
+package pl.edu.agh.pea.core.test;
 
 import static org.junit.Assert.*;
 

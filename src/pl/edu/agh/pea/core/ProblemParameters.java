@@ -20,7 +20,7 @@ public class ProblemParameters {
 		{
 			throw new ArithmeticException("Division by zero");
 		}
-		
+
 		mutationCoefficient = mutationCoefficient / coefficientsSum;
 		crossCoefficient = crossCoefficient / coefficientsSum;
 	}

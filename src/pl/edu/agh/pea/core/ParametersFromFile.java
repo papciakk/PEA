@@ -139,7 +139,7 @@ public class ParametersFromFile implements IParametersImporter{
 		}
 		
 		try{
-			ProblemParameters.setCrossCoefficient(Double.parseDouble(parameters.get("MUTATIONS_COEFF")));
+			ProblemParameters.setMutationCoefficient(Double.parseDouble(parameters.get("MUTATIONS_COEFF")));
 		}
 		catch(NumberFormatException e){
 			System.out.println("Not a valid value for MUTATIONS_COEFF");

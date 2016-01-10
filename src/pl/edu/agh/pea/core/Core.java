@@ -6,43 +6,33 @@ import pl.edu.agh.pea.operators.OperatorFactory;
 
 import java.util.*;
 
-////core version 1.2
-
 public class Core {	
-	private static List<Individual> population;
+	private List<Individual> population;
 	private List<Operator> operators;
 	
 	private IParametersImporter parametersImporter;
 	
-	/*public core(IParametersImporter parametersImporter){
-		this.parametersImporter = parametersImporter;
-	}*/
-	
-	public Core(IParametersImporter parametersImporter, List<Individual> population, List<Operator> operators)
-	{
+	public Core(IParametersImporter parametersImporter, List<Individual> population, List<Operator> operators){
 		this.parametersImporter = parametersImporter;
 		this.population = population;
 		this.operators = operators;
 	}
 	
-	public void solve()
-	{
+	public void solve(){
 		Individual bestInGeneration;
-		double [] bestInGenerationArray = new double [ProblemParameters.generations];
+		double [] bestInGenerationArray = new double [ProblemParameters.getGenerations()];
 		
-		for(int i = 0; i < ProblemParameters.generations; i++)
-		{
+		for(int i = 0; i < ProblemParameters.getGenerations(); i++){
 			bestInGeneration = processGeneration();
 			System.out.println("Generation " + i);
 			bestInGenerationArray[i] = bestInGeneration.getFitness();
 			bestInGeneration.printIndividual();
 		}
 		
-		//ChartDrawer.drawPlot(bestInGenerationArray);
+		ChartDrawer.drawPlot(bestInGenerationArray);
 	}
 	
-	public Individual getBestIndividual()
-	{
+	public Individual getBestIndividual(){
 		return population.get(0);
 	}
 	
@@ -57,15 +47,14 @@ public class Core {
 	}
 	
 	
-	public static List<Individual> getPopulation(){
+	public List<Individual> getPopulation(){
 		return population;
 	}
 	
 	
 	public static void main(String[] args) {
 		
-		if(args.length != 1)
-		{
+		if(args.length != 1){
 			System.out.println("Usage: PEA <config_file>");
 			return;
 		}
@@ -75,13 +64,13 @@ public class Core {
 		
 		List<Operator> operators = OperatorFactory.getOperatorList(Arrays.asList("Crossover","Mutation","Evaluation","Selection"));
 		List<Individual> population = new ArrayList<Individual>();
-		for(int i = 0; i < ProblemParameters.population; i++) 
-			population.add(new Individual(ProblemParameters.dimensions));
-		
+		for(int i = 0; i < ProblemParameters.getPopulation(); i++) {
+			population.add(new Individual(ProblemParameters.getDimensions()));
+		}
+			
 		Core c = new Core(ipm, population, operators);
 		
-		if(ProblemParameters.importProblemParameters(c.parametersImporter) == false)
-		{
+		if(ProblemParameters.importProblemParameters(c.parametersImporter) == false) {
 			return;
 		}
 		

@@ -23,7 +23,7 @@ public class Core {
 			bestInGeneration = processGeneration();
 			System.out.println("Generation " + i);
 			bestInGenerationArray[i] = bestInGeneration.getFitness();
-			bestInGeneration.printIndividual();
+			System.out.println(bestInGeneration);
 		}
 		
 		ChartDrawer.drawPlot(bestInGenerationArray);

@@ -131,6 +131,14 @@ public class ParametersFromFile implements IParametersImporter{
 		}
 		
 		try{
+			ProblemParameters.setIslands(Integer.parseInt(parameters.get("ISLANDS")));
+		}
+		catch(NumberFormatException e){
+			System.out.println("Not a valid value for ISLANDS");
+			return false;
+		}
+		
+		try{
 			ProblemParameters.setCrossCoefficient(Double.parseDouble(parameters.get("CROSS_COEFF")));
 		}
 		catch(NumberFormatException e){

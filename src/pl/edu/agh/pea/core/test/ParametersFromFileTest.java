@@ -34,6 +34,8 @@ public class ParametersFromFileTest {
 		assertEquals("Wrong value (Population)", ProblemParameters.getPopulation(), 50);
 		
 		assertEquals("Wrong value (Dimensions)", ProblemParameters.getDimensions(), 20);
+		
+		assertEquals("Wrong balue (Islands)", ProblemParameters.getIslands(), 10);
 	}
 
 }

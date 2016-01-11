@@ -3,85 +3,92 @@ package pl.edu.agh.pea.individuals;
 import java.util.Random;
 
 public class Individual {
-	private double [] genotype;
-	private double fitness;
-	protected int dimension;
-	
-	public Individual (int dimension) {
-		this.dimension = dimension;
-		this.genotype = new double [dimension];
-		randomGenotype();
-	}
+    private double [] genotype;
+    private double fitness;
+    protected int dimension;
 
-	public Individual (double [] genotype) {
-		if (genotype == null) {
-			throw new IllegalArgumentException("Genotype cannot be null");
-		}
+    public Individual (int dimension) {
+        this.dimension = dimension;
+        this.genotype = new double [dimension];
+        randomGenotype();
+    }
 
-		if (genotype.length == 0){
-			throw new IllegalArgumentException("Genotype cannot be of zero length");
-		}
+    public Individual (double [] genotype) {
+        if (genotype == null) {
+            throw new IllegalArgumentException("Genotype cannot be null");
+        }
 
-		this.dimension = genotype.length;
-		this.genotype = new double[dimension];
-		this.setGenotype(genotype);
-	}
+        if (genotype.length == 0){
+            throw new IllegalArgumentException("Genotype cannot be of zero length");
+        }
 
-	public void setFitness(double fitness){
-		this.fitness = fitness;
-	}
+        this.dimension = genotype.length;
+        this.genotype = new double[dimension];
+        this.setGenotype(genotype);
+    }
 
-	public double getFitness(){ return this.fitness; }
+    public void setFitness(double fitness){
+        this.fitness = fitness;
+    }
 
-	public void setGenotype( double [] genotype ) {
-		if (genotype == null){
-			throw new IllegalArgumentException("Argument cannot be null");
-		}
+    public double getFitness(){
+        return this.fitness;
+    }
 
-		if (genotype.length != dimension){
-			throw new IllegalArgumentException("Wrong length of genotype, should be" + dimension);
-		}
+    public void setGenotype( double [] genotype ) {
+        if (genotype == null){
+            throw new IllegalArgumentException("Argument cannot be null");
+        }
 
-		for(int i = 0; i < dimension; i++){
-			if (genotype[i] < -5.12 || genotype[i] > 5.12){
-				throw new IllegalArgumentException("Gen #" + i + " out of range");
-			} else
-				this.genotype[i] = genotype[i];
-		}
-	}
+        if (genotype.length != dimension){
+            throw new IllegalArgumentException("Wrong length of genotype, should be" + dimension);
+        }
 
-	public void randomGenotype(){
-		Random randomNum = new Random();
-		double value;
+        for(int i = 0; i < dimension; i++){
+            if (genotype[i] < -5.12 || genotype[i] > 5.12){
+                throw new IllegalArgumentException("Gen #" + i + " out of range");
+            } else
+                this.genotype[i] = genotype[i];
+        }
+    }
 
-		for(int i = 0; i < dimension; i++){
-			value = randomNum.nextDouble()*10.24 - 5.12;
-			this.setGen(i, value);
-		}
-	}
+    public void randomGenotype(){
+        Random randomNum = new Random();
+        double value;
 
-	public double [] getGenotype(){
-		return this.genotype;
-	}
+        for(int i = 0; i < dimension; i++){
+            value = randomNum.nextDouble()*10.24 - 5.12;
+            this.setGen(i, value);
+        }
+    }
 
-	public void setGen(int n, double value){
-		if (value < -5.12 || value > 5.12){
-			throw new IllegalArgumentException("Value of gen out of range");
-		} else
-			this.genotype[n] = value;
-	}
+    public double [] getGenotype(){
+        return this.genotype;
+    }
 
-	public double getGen(int n){ return this.genotype[n]; }
+    public void setGen(int n, double value){
+        if (value < -5.12 || value > 5.12){
+            throw new IllegalArgumentException("Value of gen out of range");
+        } else
+            this.genotype[n] = value;
+    }
 
-	public void printIndividual () {
-		System.out.print("Individual with genotype: [");
+    public double getGen(int n){
+        return this.genotype[n];
+    }
 
-		for(double g : genotype) {
-			System.out.print(String.format("%.3f", g) + " | ");
-		}
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
 
-		System.out.println("]");
+        result.append("Individual with genotype:\n [");
 
-		System.out.println("has fitness: " + String.format("%.3f", getFitness()));
-	}
+        for (double gen : this.genotype) {
+            result.append(String.format("%.3f", gen) + " | ");
+        }
+
+        result.append("]\n has fitness: \t" + String.format("%.3f", getFitness()) + "\n");
+
+        return result.toString();
+    }
 }

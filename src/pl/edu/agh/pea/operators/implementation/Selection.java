@@ -16,7 +16,7 @@ public class Selection extends Operator {
         heap.addAll(population);
 
         this.population.clear();
-        for (int i = 0; i < ProblemParameters.population; i++) {
+        for (int i = 0; i < ProblemParameters.getPopulation(); i++) {
             population.add(heap.poll());
         }
     }

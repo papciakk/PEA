@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.pea.core.ProblemParameters;
 import pl.edu.agh.pea.individuals.Individual;
+import pl.edu.agh.pea.individuals.Island;
 import pl.edu.agh.pea.operators.implementation.Mutation;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ public class MutationTest {
     public void test() {
         List<Individual> testPopulation = new ArrayList<>();
 
-        for (int i = 0; i < ProblemParameters.population; i++) {
-            testPopulation.add(new Individual(ProblemParameters.dimensions));
+        for (int i = 0; i < ProblemParameters.getPopulation(); i++) {
+            testPopulation.add(new Individual(ProblemParameters.getDimensions()));
         }
 
         List<double[]> unmutated = new ArrayList<>();
@@ -32,8 +33,11 @@ public class MutationTest {
             unmutated.add(ind.getGenotype().clone());
         }
 
+        Island island = new Island();
+        island.setPopulation(testPopulation);
+
         Mutation mutation = new Mutation();
-        mutation.setInputPopulation(testPopulation);
+        mutation.setInputPopulation(island);
         mutation.execute();
 
         // check if genotype after mutation is different than before

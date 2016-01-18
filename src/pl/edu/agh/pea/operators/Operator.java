@@ -3,12 +3,15 @@ package pl.edu.agh.pea.operators;
 import java.util.List;
 
 import pl.edu.agh.pea.individuals.Individual;
+import pl.edu.agh.pea.individuals.Island;
 
 public abstract class Operator {
 
     protected List<Individual> population = null;
 
-    public void setInputPopulation(List<Individual> population) {
+    public void setInputPopulation(Island island) {
+        List<Individual> population = island.getPopulation();
+
         if (population == null) {
             throw new NullPointerException("Population has not been initialized");
         }

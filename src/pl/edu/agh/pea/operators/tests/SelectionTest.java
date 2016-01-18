@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.pea.core.ProblemParameters;
 import pl.edu.agh.pea.individuals.Individual;
+import pl.edu.agh.pea.individuals.Island;
 import pl.edu.agh.pea.operators.implementation.Evaluation;
 import pl.edu.agh.pea.operators.implementation.Selection;
 
@@ -23,20 +24,23 @@ public class SelectionTest {
     public void test() {
         List<Individual> testPopulation = new ArrayList<>();
 
-        for (int i = 0; i < ProblemParameters.population * 5; i++) {
-            testPopulation.add(new Individual(ProblemParameters.dimensions));
+        for (int i = 0; i < ProblemParameters.getPopulation() * 5; i++) {
+            testPopulation.add(new Individual(ProblemParameters.getDimensions()));
         }
 
+        Island island = new Island();
+        island.setPopulation(testPopulation);
+
         Evaluation evaluation = new Evaluation();
-        evaluation.setInputPopulation(testPopulation);
+        evaluation.setInputPopulation(island);
         evaluation.execute();
 
         Selection selection = new Selection();
-        selection.setInputPopulation(testPopulation);
+        selection.setInputPopulation(island);
         selection.execute();
 
         // test number of selected individuals
-        assertTrue("Selection Test - size", testPopulation.size() == ProblemParameters.population);
+        assertTrue("Selection Test - size", testPopulation.size() == ProblemParameters.getPopulation());
 
         // test if population is sorted
         boolean sorted = true;

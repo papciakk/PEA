@@ -21,9 +21,9 @@ public class Crossover extends Operator {
         double[] genotype1;
         double[] genotype2;
 
-        for (int i = 0; i < ProblemParameters.population; i++)
-            for (int j = 0; j < ProblemParameters.population; j++) {
-                if (rand.nextDouble() <= ProblemParameters.crossCoefficient) {
+        for (int i = 0; i < ProblemParameters.getPopulation(); i++)
+            for (int j = 0; j < ProblemParameters.getPopulation(); j++) {
+                if (rand.nextDouble() <= ProblemParameters.getCrossCoefficient()) {
                     genotype1 = population.get(i).getGenotype();
                     genotype2 = population.get(j).getGenotype();
 

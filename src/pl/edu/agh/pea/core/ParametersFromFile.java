@@ -25,7 +25,7 @@ public class ParametersFromFile implements IParametersImporter{
 			return false;
 		}
 		
-		if(loadProblemParameters() == false) {
+		if(loadProblemParameters() == false) { 
 			return false;
 		}
 		
@@ -61,8 +61,8 @@ public class ParametersFromFile implements IParametersImporter{
 		} catch (IOException e) {
 			throw new InvalidConfigFileException("Error while reading \"" + fileName + "\" file");
 		}
-		
-		return (String[]) configFile.toArray();
+
+		return  configFile.toArray(new String[configFile.size()]);
 	}
 	
 	private Map<String, String> loadParametersFromConfigFile(String [] configFile) throws InvalidConfigFileException {
@@ -107,7 +107,7 @@ public class ParametersFromFile implements IParametersImporter{
 		}
 		
 		try{
-			ProblemParameters.setDimensions(Integer.parseInt(parameters.get("DIMENSTIONS")));
+			ProblemParameters.setDimensions(Integer.parseInt(parameters.get("DIMENSIONS")));
 		}
 		catch(NumberFormatException e){
 			System.out.println("Not a valid value for DIMENSIONS");
@@ -131,6 +131,14 @@ public class ParametersFromFile implements IParametersImporter{
 		}
 		
 		try{
+			ProblemParameters.setIslands(Integer.parseInt(parameters.get("ISLANDS")));
+		}
+		catch(NumberFormatException e){
+			System.out.println("Not a valid value for ISLANDS");
+			return false;
+		}
+		
+		try{
 			ProblemParameters.setCrossCoefficient(Double.parseDouble(parameters.get("CROSS_COEFF")));
 		}
 		catch(NumberFormatException e){
@@ -139,7 +147,7 @@ public class ParametersFromFile implements IParametersImporter{
 		}
 		
 		try{
-			ProblemParameters.setCrossCoefficient(Double.parseDouble(parameters.get("MUTATIONS_COEFF")));
+			ProblemParameters.setMutationCoefficient(Double.parseDouble(parameters.get("MUTATIONS_COEFF")));
 		}
 		catch(NumberFormatException e){
 			System.out.println("Not a valid value for MUTATIONS_COEFF");

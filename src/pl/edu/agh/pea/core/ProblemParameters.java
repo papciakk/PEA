@@ -6,6 +6,7 @@ public class ProblemParameters {
 	private static int dimensions;
 	private static int generations;
 	private static int population;
+	private static int islands;
 	
 	private static double mutationCoefficient;
 	private static double crossCoefficient;
@@ -20,7 +21,7 @@ public class ProblemParameters {
 		{
 			throw new ArithmeticException("Division by zero");
 		}
-		
+
 		mutationCoefficient = mutationCoefficient / coefficientsSum;
 		crossCoefficient = crossCoefficient / coefficientsSum;
 	}
@@ -98,6 +99,10 @@ public class ProblemParameters {
 	public static double getACoefficient() {
 		return ACoefficient;
 	}
+	
+	public static int getIslands() {
+		return islands;
+	}
 
 	public static void setDimensions(int dimensions) {
 		ProblemParameters.dimensions = dimensions;
@@ -121,5 +126,9 @@ public class ProblemParameters {
 
 	public static void setACoefficient(double aCoefficient) {
 		ACoefficient = aCoefficient;
+	}
+	
+	public static void setIslands(int islands) {
+		ProblemParameters.islands = islands;
 	}
 }

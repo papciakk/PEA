@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.pea.core.ProblemParameters;
 import pl.edu.agh.pea.individuals.Individual;
+import pl.edu.agh.pea.individuals.Island;
 import pl.edu.agh.pea.operators.implementation.Crossover;
 
 import java.util.ArrayList;
@@ -25,8 +26,11 @@ public class CrossoverTest {
             testPopulation.add(new Individual(ProblemParameters.getDimensions()));
         }
 
+        Island island = new Island();
+        island.setPopulation(testPopulation);
+
         Crossover crossover = new Crossover();
-        crossover.setInputPopulation(testPopulation);
+        crossover.setInputPopulation(island);
         crossover.execute();
 
         int childrenCount = testPopulation.size() - ProblemParameters.getPopulation();

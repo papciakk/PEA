@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.edu.agh.pea.core.ProblemParameters;
 import pl.edu.agh.pea.individuals.Individual;
+import pl.edu.agh.pea.individuals.Island;
 import pl.edu.agh.pea.operators.implementation.Evaluation;
 
 import java.util.ArrayList;
@@ -28,8 +29,11 @@ public class EvaluationTest {
             testPopulation.add(new Individual(ProblemParameters.getDimensions()));
         }
 
+        Island island = new Island();
+        island.setPopulation(testPopulation);
+
         Evaluation evaluation = new Evaluation();
-        evaluation.setInputPopulation(testPopulation);
+        evaluation.setInputPopulation(island);
         evaluation.execute();
 
         for (int i = 0; i < ProblemParameters.getPopulation(); i++) {

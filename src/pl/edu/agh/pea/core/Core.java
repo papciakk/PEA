@@ -12,10 +12,14 @@ public class Core {
 	private List<Island> population;
 	private List<Operator> operators;
 	
+<<<<<<< HEAD
 	private IParametersImporter parametersImporter;
 	
 	public Core(IParametersImporter parametersImporter, List<Island> population, List<Operator> operators){
 		this.parametersImporter = parametersImporter;
+=======
+	public Core(List<Individual> population, List<Operator> operators){
+>>>>>>> 3987ad69aba1efab0d52a78c327ff72e99d6f390
 		this.population = population;
 		this.operators = operators;
 	}
@@ -28,10 +32,14 @@ public class Core {
 			bestInGeneration = processGeneration();
 			System.out.println("Generation " + i);
 			bestInGenerationArray[i] = bestInGeneration.getFitness();
+<<<<<<< HEAD
 			bestInGeneration.toString();
 			if((i+1)%10 == 0){
 				migrate(population);
 			}
+=======
+			System.out.println(bestInGeneration);
+>>>>>>> 3987ad69aba1efab0d52a78c327ff72e99d6f390
 		}
 		
 		ChartDrawer.drawPlot(bestInGenerationArray);
@@ -88,7 +96,10 @@ public class Core {
 		}
 		
 		IParametersImporter ipm = new ParametersFromFile(args[0]);
-		ipm.importParameters();
+		
+		if(ipm.importParameters() == false) {
+			return;
+		}
 		
 		List<Operator> operators = OperatorFactory.getOperatorList(Arrays.asList("Crossover","Mutation","Evaluation","Selection"));
 		List<Island> population = new ArrayList<Island>();
@@ -103,11 +114,7 @@ public class Core {
 			population.add(island);
 		}
 			
-		Core c = new Core(ipm, population, operators);
-		
-		if(ProblemParameters.importProblemParameters(c.parametersImporter) == false) {
-			return;
-		}
+		Core c = new Core(population, operators);
 		
 		c.solve();
 	}

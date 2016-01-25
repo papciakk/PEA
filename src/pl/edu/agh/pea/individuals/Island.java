@@ -47,7 +47,7 @@ public class Island {
             throw new IndexOutOfBoundsException("Cannot emigrate");
         }
 
-        List<Individual> list = population.subList(0, x);
+        List<Individual> list = new ArrayList<Individual>(population.subList(0, x));
         population.removeAll(list);
         return list;
     }
